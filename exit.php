@@ -1,4 +1,5 @@
 <?php 
-setcookie('user', $username, time() - 600, "/");
+include "db.php";
+session_destroy();
 header('Location: /');
  ?>

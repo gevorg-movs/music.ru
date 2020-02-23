@@ -7,13 +7,7 @@ include "db.php";
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Rubik:400,500,600,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    
+<?php include "head.php"; ?>
 
     <title>Регистрация</title>
 </head>
@@ -25,16 +19,11 @@ include "db.php";
 
 
     <main>
-        <div class="container">
-            <div class="site-content">
-                <div class="sidebar">
-                    <div class="sidebar-menu">
-                        <div class="sidebar-desc">меню</div>
-                        <?php include "menu.php"; ?>
-                    </div>
-                    
-                </div>
-                <div class="content">
+    <div class="container">
+            <div class="site-content row">
+                <div class="col-md-4 sidebar"><?php include "sidebar.php"; ?></div>
+                <div class="col-md-8 content">
+                    <div class="in-content">
                     <div class="in-content">
                         
                  <h2>Регистрация</h2>      

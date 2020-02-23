@@ -4,81 +4,52 @@ $querycon  = $connection->query("SELECT * FROM artists");
 $result = $querycon->FETCHALL(PDO::FETCH_ASSOC);
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Rubik:400,500,600,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    <title>Artists</title>
+<?php include "head.php"; ?>
+    <title>Исполнители</title>
 </head>
 <body>
-<?php include "header.php";
-
-?>
-
-
-
-    <main>
-        <div class="container">
-            <div class="site-content">
-                <div class="sidebar">
-                    <div class="sidebar-menu">
-                        <div class="sidebar-desc">меню</div>
-                        <?php include "menu.php" ?>
-                    </div>
-                    
-                </div>
-                <div class="content">
+<?php include "header.php"; ?>
+<main> 
+    <div class="container">
+            <div class="site-content row">
+                <div class="col-md-4 sidebar"><?php include "sidebar.php"; ?></div>
+                <div class="col-md-8 content">
                     <div class="in-content">
-                        <h2>Популярные треки</h2>
-                         <?php                   
-                         
-                        foreach( $result  as  $artist )
-                        {
-                           ?>
+                        <h2>Исполнители</h2>
 
-                            <div class="artist">
-                                <div class="artist-id"><?php echo $artist['id']; ?></div>
-                                <div class="artists-title"><?php 
-                                
-                                
-                                $artname = $artist['artist_name'];
-                                
-                                echo $artname; ?></div>
-                                <div class="artist-num"><?php 
-                                
+                        <div class="row mb-2 font-weight-bold">
+                            <div class="col-md-1">ID</div>
+                            <div class="col-md-6">Имя исполнителя</div>
+                            <div class="col-md-3">Количество треков</div>
+                        </div>
+
+                         <?php foreach( $result  as  $artist )
+                        {
+                            $artname = $artist['artist_name']; ?>
+                        <div class="row">
+                            <div class="col-md-1"><?= $artist['id']; ?></div>
+                            <div class="col-md-6">
+                                <a href="/artist.php?id=<?=$artist['id'];?>"><?=$artname;?></a>
+                            </div>
+                            <div class="col-md-3"><?php                                 
                                 $numberOfUsers = $connection->query("SELECT COUNT(*) FROM articles 
                          WHERE `artist2` = '$artname' OR `artist1` = '$artname'")->fetchColumn();
-                        echo "$numberOfUsers";
-                                
-                                
-                                
-                                
-                                
-                                ?></div>
-                            </div>
-
-                        
-                        <?php
-                         };
-                         
-                      ?> 
-
-
-                           
-
-
-
+                        echo "$numberOfUsers"; ?></div>
+                        </div> 
+                         <?php
+                         };  ?>
                     </div>
-                </div>
+                </div>               
             </div>
         </div>
     </main>
 </body>
 </html>
+
+
+
+
+

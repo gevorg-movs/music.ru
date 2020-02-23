@@ -2,8 +2,6 @@
 include "db.php";
 $id = $_GET['id'];
 
-
-
 $queryadd = $connection->query('SELECT * FROM artists');
 $artists = $queryadd->FETCHALL(PDO::FETCH_ASSOC);
 
@@ -30,86 +28,70 @@ $artists = $queryadd->FETCHALL(PDO::FETCH_ASSOC);
      {
         $artist = $art1;
      };
-
-
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Rubik:400,500,600,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    
-
+<?php include "head.php"; ?>
     <title><?php echo $artist; ?></title>
 </head>
 <body>
-<?php include "header.php";
-
-?>
-
-
-
+<?php include "header.php"; ?>
     <main>
         <div class="container">
-            <div class="site-content">
-                <div class="sidebar">
-                    <div class="sidebar-menu">
-                        <div class="sidebar-desc">меню</div>
-                        <?php include "menu.php"; ?>
-                    </div>
-                    
-                </div>
-                <div class="content">
+            <div class="site-content row">
+                <div class="col-md-4 sidebar"><?php include "sidebar.php"; ?></div>
+                <div class="col-md-8 content">
                     <div class="in-content">                 
-                                           
-<h4 class="h4_title">Редактировать <b><?php echo $artist . ' - ' . $titler; ?></b></h4>
-<button><a href="music.php?id=<?php echo $results['id'] ?>">Перейти к записи</a></button>         
-<form method="post" action="editor.php?id=<?php echo $results['id'] ?>">             
+                        <h2 class="text-center">Редактировать<?=  $artist . ' - ' . $titler; ?></h2>
+                       
+                            <a href="music.php?id=<?= $results['id'] ?>"> <button class="btn btn-primary mb-2">Перейти к записи</button> </a>
+                                 
+                        <form method="post" action="editor.php?id=<?= $results['id'] ?>">             
+                                        <div class="form-group">
+                                            <select class="custom-select" name="artist1" required > 
+                                                <option selected value="<?= $art1; ?>"><?=$art1; ?></option>
+                                                <?php
+                                                foreach( $artists   as  $artos )
+                                                { ?>
+                                               
+                                                <option value="<?= $artos['artist_name']?>"><?= $artos['artist_name'] ?></option>
 
-                        <div class="musicadd">
-                                <div class="musicadd-names">
-                                <select name="artist1" required > 
-                                <option value="<?php echo $art1; ?>"><?php echo $art1; ?></option>
-                          <?php
-                         foreach( $artists   as  $artos )
-                        {
-                            echo
-                            '<option value="' . $artos['artist_name'] . '">' . $artos['artist_name'] .  '</option>';
-                         };
-                          ?>
-                         </select> 
+                                                <?php };
+                                                                     ?>
+                                            </select> 
+                                        </div>
+                                        <div class="form-group">
+                                            <select class="custom-select" name="artist2" > 
+                                                <option selected value="<?=$art2; ?>"><?= $art2; ?></option>
+                                            <?php
+                                                foreach( $artists   as  $artos )
+                                                { ?>
+                                               
+                                               <option value="<?= $artos['artist_name']?>"><?= $artos['artist_name'] ?></option>
 
-                         <select name="artist2" > 
-                                <option value="<?php echo $art2; ?>"><?php echo $art2; ?></option>
-                                <option value="">Не выбрать</option>
-                          <?php
-                         foreach( $artists   as  $artos )
-                        {
-                            echo
-                            '<option value="' . $artos['artist_name'] . '">' . $artos['artist_name'] .  '</option>';
-                         };
-                          ?>
-                         </select>               
-    
-                         
-                                    <input type="text" name="title" placeholder="Название песни" value="<?php echo $titler; ?>" required >
-                                    <input type="text" name="length" placeholder="Длительность" value="<?php echo $length; ?>" required>
-                                </div>
-                               
-                                <button class="musicadd-btn" name="edit" type="submit">Отправить</button>
+                                                <?php };
+                                                                     ?>
+                                                  </select> 
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control" type="text" name="title" placeholder="Название песни" value="<?= $titler; ?>" required >
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control" type="text" name="length" placeholder="Длительность" value="<?= $length; ?>" required>
+                                        </div>     
+                                        <button class="btn btn-success" name="edit" type="submit">Отправить</button>
+                                                 
+                            </form>
                         </div>
-                    </form>
-                    </div>
-                </div>
+                    </div>               
             </div>
         </div>
     </main>
 </body>
 </html>
+
+
+
+
+

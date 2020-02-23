@@ -32,15 +32,8 @@ $id = $_GET['id'];
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Rubik:400,500,600,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    
-
-    <title><?php echo $artist; ?></title>
+<?php include "head.php"; ?>
+    <title><?php echo $artist . " - " . $results['title']; ?></title>
 </head>
 <body>
 <?php include "header.php";
@@ -51,131 +44,92 @@ $id = $_GET['id'];
 
     <main>
         <div class="container">
-            <div class="site-content">
-                <div class="sidebar">
-                    <div class="sidebar-menu">
-                        <div class="sidebar-desc">меню</div>
-                        <?php include "menu.php"; ?>
+            <div class="site-content row">
+                <div class="col-md-4 sidebar"><?php include "sidebar.php"; ?></div>
+                <div class="col-md-8 content">
+                    <div class="in-content">
+                       
+                    <h1 class="text-center"> <?= $artist . ' - ' . $results['title']  ?></h1>
+                       <div class="row"> 
+                        <div class="col-md-4 offset-md-1 font-weight-bold d-flex">Исполнитель: </div>
+                        <div class="col-md-6"> <?= $artist  ?></div>
+                    </div>
+                    <div class="row"> 
+                        <div class="col-md-4 offset-md-1 font-weight-bold">Трек: </div>
+                        <div class="col-md-6"> <?=$results['title'] ?> </div>
+                    </div>
+                    <div class="row"> 
+                        <div class="col-md-4 offset-md-1 font-weight-bold">Дата добавления: </div>
+                        <div class="col-md-6"><?= $results['data'] ?></div>
+                    </div>
+                    <div class="row"> 
+                        <div class="col-md-4 offset-md-1 font-weight-bold">Продолжительность: </div>
+                        <div class="col-md-6"> <?= $results['length'] ?> </div>
+                    </div>
+                    <div class="d-flex justify-content-center mt-3"> 
+                        <a href="/delete.php?id=<?php echo $results['id'] ?>"><button class="mr-2 btn btn-danger">Удалить</button></a>
+                        <a href="/edit.php?id=<?php echo $results['id'] ?>  "><button class="btn btn-primary" >Редактировать</button></a>
+                    </div>
+
+
+<!-- Вывод комментариев -->
+<h2 class="text-center m-5">Комментарии</h2>
+<?php
+$querycom  = $connection->query("SELECT * FROM `comments` WHERE `id` = '$id'");
+$result = $querycom->FETCHALL(PDO::FETCH_ASSOC);
+foreach( $result  as  $comment )
+{ ?>
+    <div class="comment-box">
+        <div class="row mb-4">
+            <div class="col-md-1  "><img class="comment-avatar" src="/img/avatar.jpg" alt=""></div>
+            <div class="col-md-3 offset-md-2">
+                <div class="row">
+                    <div class="col-md-12"><h5 class=""><?= $comment['name']; ?></h5></div>
+                    <div class="col-md-12"><p><?= $comment['comtext']; ?></p></div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+<?php }
+                         
+?>
+<!-- Вывод комментариев -->
+<!-- Добавление комментариев -->
+
+<h4 >Добавить комментарий</h4>
+<form method="post" action="comment-add.php?id=<?php echo $results['id'] ?>">  
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="name" placeholder="Ваше имя" required>
+                        </div>
+                    
+                    </div>
+                    <div class="col-md-6"> 
+                        <div class="form-group">
+                            <input  class="form-control"  type="email" name="email" placeholder="Ваш E-Mail" required>
+                        </div>
                     </div>
                     
                 </div>
-                <div class="content">
-                    <div class="in-content">
-                        
-                       
-
-                         <?php
-                         
-                         
-                        
-                         // Проверим, есть ли второй испольнитель, если да, то выводим именя двух испольнителей
-                        echo
-                        '<h1 class="text-center">' . $artist . ' - ' . $results['title'] . '</h1>' . 
-                        '                    <div class="row"> 
-                        <div class="col-md-6 font-weight-bold d-flex">Исполнитель: </div>
-                        <div class="col-md-6">' . $artist . '</div>
-                    </div>
-                    <div class="row"> 
-                        <div class="col-md-6 font-weight-bold">Трек: </div>
-                        <div class="col-md-6">' . $results['title'] . '</div>
-                    </div>
-                    <div class="row"> 
-                        <div class="col-md-6 font-weight-bold">Дата добавления: </div>
-                        <div class="col-md-6">' . $results['data'] . '</div>
-                    </div>
-                    <div class="row"> 
-                        <div class="col-md-6 font-weight-bold">Продолжительность: </div>
-                        <div class="col-md-6">' . $results['length'] . '</div>
-                    </div>';
-                     ?> 
-
-<!-- Удаление записи -->
-<form method="post" action="music.php?id=<?php echo $results['id'] ?>"> 
-<button class="delete-btn" name="delete" type="submit">Удалить</button>
-<button class="edit-btn" ><a href="/edit.php?id=<?php echo $results['id'] ?>  ">Редактировать</a></button>
-<?php
-If(isset($_POST['delete'])) {
-$querydell = "DELETE FROM `articles` WHERE `id` = ?";
-$paramsdell = [$id];
-$stdell = $connection->prepare($querydell);
-$stdell->execute($paramsdell);
-echo 'Пост удален, перенаправление на главную';
-echo '<script>setTimeout(function(){location.replace("/");}, 1000);</script>';
-};
-?>
-</form>
-<!-- Конец кода удаления -->
-
-<!-- Вывод комментариев -->
-<h4 class="h4_title">Комментарии</h4>
-<?php
-               $connect = mysqli_connect('localhost', 'root', '', 'music_db');  
-                $comments = mysqli_query($connect, "SELECT * FROM `comments` WHERE `id` = $id");
-                while ($com = mysqli_fetch_assoc($comments)) {
-                echo '<div class="comments">
-                <div class="comments-avatar"><img src="/img/avatar.jpg" alt="">
-                <div class="comments-name">' . $com['name'] . '</div>
+                <div class="form-group">
+                    <textarea class="form-control"  name="comtext" id="" cols="30" rows="10" placeholder="Ваш комментарий" required></textarea>
                 </div>
-                <div class="comments-content">' . $com['comtext'] . '</div>
-            </div>';
-             }                        
-?>
-<!-- Вывод комментариев -->
-<h4 class="h4_title">Добавить комментарий</h4>
-             <form method="post" action="music.php?id=<?php echo $results['id'] ?>">  
+                <button class="btn btn-success" name="save" type="submit">Отправить</button>                       
+            </form>  
+<!-- Добавление комментариев --> 
 
-             
-<?php
+</div>
 
-// Проверить нажата ли кнопка
-If(isset($_POST['save'])){
-try {
-
-
-// Включение вывода ошибок
-$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-// Указать парамерты SQL запроса
-$stmt = $connection->prepare("INSERT INTO comments (id, name, email, comtext) VALUES (:id, :name, :email, :comtext)");
-// Забиндить значения
-$stmt->bindParam(':id', $id);
-$stmt->bindParam(':name', $name);
-$stmt->bindParam(':email', $email);
-$stmt->bindParam(':comtext', $comtext);
-// Указать значения
-$id = $id;
-$name = $_POST['name'];
-$email = $_POST['email'];
-$comtext = $_POST['comtext'];
-// Заменить значения в SQL запросес
-$stmt->execute();
-echo "Ваш комментарий добавлен";
-}catch(PDOException $e){
-echo "Ошибка: " . $e->getMessage();
-}
-$connection = null;
-
-} ?>
-
-                        <div class="commentadd">
-                                <div class="commentadd-names">
-                                    <input type="text" name="name" placeholder="Ваше имя" required>
-                                    <input type="email" name="email" placeholder="Ваш E-Mail" required>
-                                </div>
-                                <textarea name="comtext" id="" cols="30" rows="10" placeholder="Ваш комментарий" required></textarea>
-                                <button class="commentadd-btn" name="save" type="submit">Отправить</button>
-                        </div>
-                    </form>
-
-
-                
-
-
-
-                    </div>
-                </div>
+</div>               
             </div>
-        </div>
+            </div>
+
+
+
+
+        
     </main>
 </body>
 </html>
