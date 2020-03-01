@@ -10,9 +10,9 @@ $artists = $queryadd->FETCHALL(PDO::FETCH_ASSOC);
         <?php include "head.php"; ?>
         <title>Добавить песню</title>
     </head>
-    <body>
+<body>
         <?php include "header.php"; ?>
-        <main>
+    <main>
         <div class="container">
             <div class="site-content row">
                 <div class="col-md-4 sidebar"><?php include "sidebar.php"; ?></div>
@@ -54,7 +54,7 @@ $artists = $queryadd->FETCHALL(PDO::FETCH_ASSOC);
                 </div>               
             </div>
         </div>
-        </main>
+    </main>
 </body>
 </html>
 

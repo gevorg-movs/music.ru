@@ -13,10 +13,18 @@ $id = $_GET['id'];
  $name = $results['artist_name'];
 
 //Количество песен исполнителя
-  $numberOfarticles = $connection->query("SELECT COUNT(*) FROM articles 
-                         WHERE `artist2` = '$name' OR `artist1` = '$name'")->fetchColumn();
+ 
                         
 //Количество песен исполнителя
+
+
+
+$fid = $_SESSION['id'];
+
+$querycon  = $connection->query("SELECT * FROM articles  WHERE `artist2` = '$name' OR `artist1` = '$name'");
+ $result = $querycon->FETCHALL(PDO::FETCH_ASSOC);
+ $numberOfarticles = count($result);
+
 ?>
 
 
@@ -40,34 +48,58 @@ $id = $_GET['id'];
     <div class="container">
             <div class="site-content row">
                 <div class="col-md-4 sidebar"><?php include "sidebar.php"; ?></div>
-                <div class="col-md-8 content"><div class="in-content">
+                <div class="col-md-8 content">
+                    <div class="in-content">
                         
                        
+                    <h1 class="text-center mb-4"> <?=  $name  ?></h1>
+                       <div class="row"> 
+                        <div class="col-md-4 offset-md-1 font-weight-bold d-flex">Исполнитель: </div>
+                        <div class="col-md-6"> <?=  $name  ?></div>
+                    </div>
+                    <div class="row mb-5"> 
+                        <div class="col-md-4 offset-md-1 font-weight-bold">Треков: </div>
+                        <div class="col-md-6"> <?= $numberOfarticles ?> </div>
+                    </div>
+                    
+                 
+                    <?php
+                    foreach( $result  as  $results )
+                        { 
+                         ?>
 
-                        <?php
-                        
-                        
-                       
-                        // Проверим, есть ли второй испольнитель, если да, то выводим именя двух испольнителей
-                       echo
-                       '<h1 class="text-center">' . $name . '</h1>' . 
-                       '                    <div class="row"> 
-                       <div class="col-md-6 font-weight-bold d-flex">Исполнитель: </div>
-                       <div class="col-md-6">' . $name . '</div>
-                   </div>
-                   <div class="row"> 
-                       <div class="col-md-6 font-weight-bold">Трек: </div>
-                       <div class="col-md-6">' . $numberOfarticles . '</div>
-                   </div>
-                   <div class="row"> 
-                       <div class="col-md-6 font-weight-bold">Дата добавления: </div>
-                       <div class="col-md-6">' . $results['date'] . '</div>
-                   </div>
-                   <div class="row"> 
-                       <div class="col-md-6 font-weight-bold">Продолжительность: </div>
-                       <div class="col-md-6">' . $results['length'] . '</div>
-                   </div>';
-                    ?>   </div></div>               
+                        <div class="row">
+                          <div class="col-md-1">
+                          <img class="avatar" src="/img/avatar.png" alt="">
+                          </div>
+                          <div class="col-md-7">
+                              <div class="row">
+                                <div class="col-md-12 font-weight-bold"><a href="/music.php?id=<?= $results['id']; ?>"><?= $results['title']; ?></a></div>
+                                <div class="col-md-12"><?php
+                                 echo $results['artist1'];
+                                    if($results['artist2']) 
+                                    {
+                                        echo ", " . $results['artist2'];
+                                    }
+                                 ?></div>
+                              </div>
+                          </div>
+                          <div class="col-md-3">
+                          <?= $results['length']; ?>
+                          </div>
+                        </div>
+
+                         <?php
+                         } ?> 
+
+
+
+                    
+   
+                    
+                    
+                    
+                     </div></div>               
             </div>
         </div>
     </main>

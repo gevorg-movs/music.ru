@@ -1,7 +1,6 @@
 <?php 
 include "db.php";
 $id = $_GET['id'];
-
 $queryadd = $connection->query('SELECT * FROM artists');
 $artists = $queryadd->FETCHALL(PDO::FETCH_ASSOC);
 
@@ -43,20 +42,18 @@ $artists = $queryadd->FETCHALL(PDO::FETCH_ASSOC);
                 <div class="col-md-4 sidebar"><?php include "sidebar.php"; ?></div>
                 <div class="col-md-8 content">
                     <div class="in-content">                 
-                        <h2 class="text-center">Редактировать<?=  $artist . ' - ' . $titler; ?></h2>
-                       
-                            <a href="music.php?id=<?= $results['id'] ?>"> <button class="btn btn-primary mb-2">Перейти к записи</button> </a>
-                                 
+                        <h2 class="text-center">Редактировать <?=  $artist . ' - ' . $titler; ?></h2>                       
+                            <a href="music.php?id=<?= $results['id'] ?>"> 
+                                <button class="btn btn-primary mb-2">Перейти к записи</button>
+                            </a>                                 
                         <form method="post" action="editor.php?id=<?= $results['id'] ?>">             
                                         <div class="form-group">
                                             <select class="custom-select" name="artist1" required > 
                                                 <option selected value="<?= $art1; ?>"><?=$art1; ?></option>
                                                 <?php
                                                 foreach( $artists   as  $artos )
-                                                { ?>
-                                               
+                                                { ?>                                               
                                                 <option value="<?= $artos['artist_name']?>"><?= $artos['artist_name'] ?></option>
-
                                                 <?php };
                                                                      ?>
                                             </select> 
@@ -64,15 +61,11 @@ $artists = $queryadd->FETCHALL(PDO::FETCH_ASSOC);
                                         <div class="form-group">
                                             <select class="custom-select" name="artist2" > 
                                                 <option selected value="<?=$art2; ?>"><?= $art2; ?></option>
-                                            <?php
-                                                foreach( $artists   as  $artos )
-                                                { ?>
-                                               
+                                            <?php foreach( $artists   as  $artos )
+                                                { ?>                                               
                                                <option value="<?= $artos['artist_name']?>"><?= $artos['artist_name'] ?></option>
-
-                                                <?php };
-                                                                     ?>
-                                                  </select> 
+                                                <?php };  ?>
+                                            </select> 
                                         </div>
                                         <div class="form-group">
                                             <input class="form-control" type="text" name="title" placeholder="Название песни" value="<?= $titler; ?>" required >

@@ -36,20 +36,14 @@ $id = $_GET['id'];
     <title><?php echo $artist . " - " . $results['title']; ?></title>
 </head>
 <body>
-<?php include "header.php";
-
-?>
-
-
-
+<?php include "header.php";?>
     <main>
         <div class="container">
             <div class="site-content row">
                 <div class="col-md-4 sidebar"><?php include "sidebar.php"; ?></div>
                 <div class="col-md-8 content">
-                    <div class="in-content">
-                       
-                    <h1 class="text-center"> <?= $artist . ' - ' . $results['title']  ?></h1>
+                    <div class="in-content">                       
+                    <h1 class="text-center mb-4"> <?= $artist . ' - ' . $results['title']  ?></h1>
                        <div class="row"> 
                         <div class="col-md-4 offset-md-1 font-weight-bold d-flex">Исполнитель: </div>
                         <div class="col-md-6"> <?= $artist  ?></div>
@@ -66,11 +60,10 @@ $id = $_GET['id'];
                         <div class="col-md-4 offset-md-1 font-weight-bold">Продолжительность: </div>
                         <div class="col-md-6"> <?= $results['length'] ?> </div>
                     </div>
-                    <div class="d-flex justify-content-center mt-3"> 
-                        <a href="/delete.php?id=<?php echo $results['id'] ?>"><button class="mr-2 btn btn-danger">Удалить</button></a>
-                        <a href="/edit.php?id=<?php echo $results['id'] ?>  "><button class="btn btn-primary" >Редактировать</button></a>
+                    <div class="d-flex justify-content-center mt-4"> 
+                        <a href="/delete.php?id=<?=$results['id'] ?>"><button class="mr-2 btn btn-danger">Удалить</button></a>
+                        <a href="/edit.php?id=<?= $results['id'] ?>  "><button class="btn btn-primary" >Редактировать</button></a>
                     </div>
-
 
 <!-- Вывод комментариев -->
 <h2 class="text-center m-5">Комментарии</h2>
@@ -80,9 +73,9 @@ $result = $querycom->FETCHALL(PDO::FETCH_ASSOC);
 foreach( $result  as  $comment )
 { ?>
     <div class="comment-box">
-        <div class="row mb-4">
-            <div class="col-md-1  "><img class="comment-avatar" src="/img/avatar.jpg" alt=""></div>
-            <div class="col-md-3 offset-md-2">
+        <div class="d-flex align-items-center mb-3">
+            <div class="comment-avatar"><img class="comment-avatar" src="/img/avatar.jpg" alt=""></div>
+            <div class="">
                 <div class="row">
                     <div class="col-md-12"><h5 class=""><?= $comment['name']; ?></h5></div>
                     <div class="col-md-12"><p><?= $comment['comtext']; ?></p></div>
@@ -91,13 +84,11 @@ foreach( $result  as  $comment )
             </div>
         </div>
     </div>
-<?php }
-                         
-?>
+<?php } ?>
 <!-- Вывод комментариев -->
-<!-- Добавление комментариев -->
 
-<h4 >Добавить комментарий</h4>
+<!-- Добавление комментариев -->
+<h4>Добавить комментарий</h4>
 <form method="post" action="comment-add.php?id=<?php echo $results['id'] ?>">  
                 <div class="row">
                     <div class="col-md-6">
@@ -119,17 +110,10 @@ foreach( $result  as  $comment )
                 <button class="btn btn-success" name="save" type="submit">Отправить</button>                       
             </form>  
 <!-- Добавление комментариев --> 
-
-</div>
-
-</div>               
+                    </div>
+                </div>               
             </div>
-            </div>
-
-
-
-
-        
+        </div>
     </main>
 </body>
 </html>

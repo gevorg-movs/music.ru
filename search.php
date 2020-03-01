@@ -1,12 +1,14 @@
-<?php 
-include "db.php"; 
+<?php include "db.php"; 
+$search = $_GET['search-text'];
+$querycon = $connection->prepare("SELECT * FROM articles WHERE `artist1` LIKE :search OR `artist2` LIKE :search");
+$querycon->execute([ ':search' => $search  ]);
+$result = $querycon->FETCHALL(PDO::FETCH_ASSOC);
 ?>
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <?php include "head.php"; ?>
-    <title>Главная страница</title>
+    <title>Поиск по запросу <?=$search; ?></title>
 </head> 
 <body>
 <?php include "header.php"; ?>
@@ -15,11 +17,10 @@ include "db.php";
             <div class="site-content row">
                 <div class="col-md-4 sidebar"><?php include "sidebar.php"; ?></div>
                 <div class="col-md-8 content"><div class="in-content">
-                        <h2 class="m-2">Популярные треки</h2>
+                        <h2 class="m-2">Поиск по запросу: <?=$search; ?></h2>
+                        <p>Найдено: <?= count($result); ?></p>
                          <?php                   
-                         $querycon  = $connection->query("SELECT * FROM articles LIMIT 15");
-                        $result = $querycon->FETCHALL(PDO::FETCH_ASSOC);
-                        foreach( $result  as  $results )
+                      foreach( $result  as  $results )
                         {   ?>
 
                         <div class="row">

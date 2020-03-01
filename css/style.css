@@ -14,5 +14,48 @@ body {
 .comment-avatar {
   width: 60px;
   height: auto;
+  padding-right: 20px;
+}
+
+.sidebar {
+  padding: 25px;
+  font-size: 15px;
+}
+
+.sidebar-menu {
+  background-color: #79797915;
+  border-radius: 50px;
+  padding: 25px;
+  border-radius: 20px;
+}
+
+.sidebar-desc {
+  color: #949494;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+}
+
+.sidebar ul {
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar li {
+  margin-bottom: 6px;
+}
+
+.sidebar a:hover {
+  border-bottom: 1px solid;
+  color: #252525;
+}
+
+.content {
+  background-color: #79797915;
+  padding: 25px;
+  border-radius: 50px;
 }
 /*# sourceMappingURL=style.css.map */

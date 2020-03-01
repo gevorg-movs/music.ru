@@ -19,13 +19,11 @@ $result = $querycon->FETCHALL(PDO::FETCH_ASSOC);
                 <div class="col-md-8 content">
                     <div class="in-content">
                         <h2>Исполнители</h2>
-
                         <div class="row mb-2 font-weight-bold">
                             <div class="col-md-1">ID</div>
                             <div class="col-md-6">Имя исполнителя</div>
-                            <div class="col-md-3">Количество треков</div>
+                            <div class="col-md-5">Количество треков</div>
                         </div>
-
                          <?php foreach( $result  as  $artist )
                         {
                             $artname = $artist['artist_name']; ?>
@@ -34,7 +32,7 @@ $result = $querycon->FETCHALL(PDO::FETCH_ASSOC);
                             <div class="col-md-6">
                                 <a href="/artist.php?id=<?=$artist['id'];?>"><?=$artname;?></a>
                             </div>
-                            <div class="col-md-3"><?php                                 
+                            <div class="col-md-5"><?php                                 
                                 $numberOfUsers = $connection->query("SELECT COUNT(*) FROM articles 
                          WHERE `artist2` = '$artname' OR `artist1` = '$artname'")->fetchColumn();
                         echo "$numberOfUsers"; ?></div>
