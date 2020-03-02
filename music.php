@@ -15,15 +15,12 @@ $id = $_GET['id'];
  // Конец запроса
     if($results['artist2']) { 
         
-        $artist = $art1 . ', ' . $art2;
-        $artistlink = "<a href =\"/artist.php?artid=$artid1\">  $art1 </a>" . "<a href =\"/artist.php?artid=$artid2\">  $art2 </a>";
-        
+        $artist = $art1 . ', ' . $art2;              
     }
     else 
      {
         $artist = $art1;
      };
-
 
 ?>
 

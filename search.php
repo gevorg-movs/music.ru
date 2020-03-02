@@ -1,6 +1,6 @@
 <?php include "db.php"; 
 $search = $_GET['search-text'];
-$querycon = $connection->prepare("SELECT * FROM articles WHERE `artist1` LIKE :search OR `artist2` LIKE :search");
+$querycon = $connection->prepare("SELECT * FROM articles WHERE `artist1` LIKE :search OR `artist2` LIKE :search OR `title` LIKE :search");
 $querycon->execute([ ':search' => $search  ]);
 $result = $querycon->FETCHALL(PDO::FETCH_ASSOC);
 ?>
